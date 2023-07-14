@@ -18,6 +18,7 @@ export declare class TreeviewComponent implements OnChanges, OnInit {
     headerTemplateContext: TreeviewHeaderTemplateContext;
     allItem: TreeviewItem;
     filterText: string;
+    showHidden: boolean;
     filterItems: TreeviewItem[];
     selection: TreeviewSelection;
     constructor(i18n: TreeviewI18n, defaultConfig: TreeviewConfig, eventParser: TreeviewEventParser);
@@ -27,12 +28,14 @@ export declare class TreeviewComponent implements OnChanges, OnInit {
     ngOnChanges(changes: SimpleChanges): void;
     onAllCollapseExpand(): void;
     onFilterTextChange(text: string): void;
+    onFilterShowHiddenChange(showHidden: boolean): void;
     onAllCheckedChange(): void;
     onItemCheckedChange(item: TreeviewItem, checked: boolean): void;
     raiseSelectedChange(): void;
     private createHeaderTemplateContext;
     private generateSelection;
     private updateFilterItems;
+    private filterItemHidden;
     private filterItem;
     private updateCheckedOfAll;
     private updateCollapsedOfAll;

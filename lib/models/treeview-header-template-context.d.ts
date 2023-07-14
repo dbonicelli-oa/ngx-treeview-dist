@@ -6,4 +6,5 @@ export interface TreeviewHeaderTemplateContext {
     onCollapseExpand: () => void;
     onCheckedChange: (checked: boolean) => void;
     onFilterTextChange: (text: string) => void;
+    onFilterShowHiddenChange: (showHidden: boolean) => void;
 }

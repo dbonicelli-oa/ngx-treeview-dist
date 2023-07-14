@@ -6,6 +6,7 @@ export interface TreeItem {
     text: string;
     value: any;
     disabled?: boolean;
+    hidden?: boolean;
     checked?: boolean;
     collapsed?: boolean;
     children?: TreeItem[];
@@ -14,12 +15,15 @@ export declare class TreeviewItem {
     private internalDisabled;
     private internalChecked;
     private internalCollapsed;
+    private internalHidden;
     private internalChildren;
     text: string;
     value: any;
     constructor(item: TreeItem, autoCorrectChecked?: boolean);
     get checked(): boolean;
     set checked(value: boolean);
+    get hidden(): boolean;
+    set hidden(value: boolean);
     get indeterminate(): boolean;
     setCheckedRecursive(value: boolean): void;
     get disabled(): boolean;
