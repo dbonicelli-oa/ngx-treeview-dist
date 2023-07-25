@@ -1038,6 +1038,7 @@
         TreeviewComponent.prototype.onFilterShowHiddenChange = function (showHidden) {
             this.showHidden = showHidden;
             this.filterChange.emit("" + showHidden);
+            this.filterText = '';
             this.updateFilterItems();
         };
         TreeviewComponent.prototype.onAllCheckedChange = function () {
@@ -1144,9 +1145,16 @@
                             return newItem;
                         }
                         else {
-                            var newItem = new FilterTreeviewItem(item);
+                            var newItem = new FilterTreeviewItem(new TreeviewItem({
+                                text: item.text,
+                                value: item.value,
+                                disabled: item.disabled,
+                                checked: item.checked,
+                                hidden: item.hidden,
+                                collapsed: item.collapsed,
+                                children: []
+                            }));
                             newItem.collapsed = false;
-                            newItem.children = [];
                             return newItem;
                         }
                     }
@@ -1160,11 +1168,11 @@
         TreeviewComponent.prototype.filterItem = function (item, filterText) {
             var _this = this;
             var isMatch = lodash.includes(item.text.toLowerCase(), filterText);
-            if (isMatch) {
+            if (isMatch && (this.showHidden || (!this.showHidden && !item.hidden))) {
                 return item;
             }
             else {
-                if (!lodash.isNil(item.children)) {
+                if (!lodash.isNil(item.children) && ((!this.showHidden && !item.hidden) || this.showHidden)) {
                     var children_2 = [];
                     item.children.forEach(function (child) {
                         var newChild = _this.filterItem(child, filterText);

@@ -576,6 +576,7 @@ class TreeviewComponent {
     onFilterShowHiddenChange(showHidden) {
         this.showHidden = showHidden;
         this.filterChange.emit(`${showHidden}`);
+        this.filterText = '';
         this.updateFilterItems();
     }
     onAllCheckedChange() {
@@ -678,9 +679,16 @@ class TreeviewComponent {
                         return newItem;
                     }
                     else {
-                        const newItem = new FilterTreeviewItem(item);
+                        const newItem = new FilterTreeviewItem(new TreeviewItem({
+                            text: item.text,
+                            value: item.value,
+                            disabled: item.disabled,
+                            checked: item.checked,
+                            hidden: item.hidden,
+                            collapsed: item.collapsed,
+                            children: []
+                        }));
                         newItem.collapsed = false;
-                        newItem.children = [];
                         return newItem;
                     }
                 }
@@ -693,11 +701,11 @@ class TreeviewComponent {
     }
     filterItem(item, filterText) {
         const isMatch = includes(item.text.toLowerCase(), filterText);
-        if (isMatch) {
+        if (isMatch && (this.showHidden || (!this.showHidden && !item.hidden))) {
             return item;
         }
         else {
-            if (!isNil(item.children)) {
+            if (!isNil(item.children) && ((!this.showHidden && !item.hidden) || this.showHidden)) {
                 const children = [];
                 item.children.forEach(child => {
                     const newChild = this.filterItem(child, filterText);
